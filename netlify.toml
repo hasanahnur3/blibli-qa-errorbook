@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/*"
-  to = "http://159.223.37.9:9200:splat"
+  to = "http://61a8f10036fc730008846fa1--pedantic-beaver-c52a4c.netlify.app/:splat"
   status = 200
   force = true
