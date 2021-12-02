@@ -12,7 +12,7 @@ const ELASTIC_URL = "http://159.223.37.9:9200";
 export default {
 
     getTopTenError() {
-        return Axios.post(ELASTIC_URL + "error_summary_index/_search", HomePayload.topTenErrorPayload());
+        return Axios.post("error_summary_index/_search", HomePayload.topTenErrorPayload());
     },
 
     getTopTenErrorWithEnv() {
