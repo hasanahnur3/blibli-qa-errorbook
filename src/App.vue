@@ -1,35 +1,18 @@
 <template>
-<html>
-<head>
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-</head>
-
-<body>
-<div id="app">
-  <div class="row">
-    <div class="col-1"></div>
-    <div class="col-10">
-      <router-view />
+  <div id="app">
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <router-view />
+      </div>
+      <div class="col-1"></div>
     </div>
-    <div class="col-1"></div>
-  </div>
-</div>
-</body>
-</html>
-<!--  <div id="app">-->
-<!--    <div class="row">-->
-<!--      <div class="col-1"></div>-->
-<!--      <div class="col-10">-->
-<!--        <router-view />-->
-<!--      </div>-->
-<!--      <div class="col-1"></div>-->
-<!--    </div>-->
 
     <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div> -->
-<!--  </div>-->
+  </div>
 </template>
 
 <style lang="scss">
