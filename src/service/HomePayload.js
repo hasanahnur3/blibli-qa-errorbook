@@ -1,6 +1,11 @@
 import TimePayload from "@/service/TimePayload";
+import store from '../store';
 
 export default {
+
+    ///////// TOP TEN ERROR
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     topTenErrorPayload() {
         console.log("masuk target");
         console.log(TimePayload.getTimePayload());
@@ -19,7 +24,7 @@ export default {
         }
     },
 
-    topTenErrorWithEnvPayload(env) {
+    topTenErrorWithEnvPayload() {
         return {
             "size": 0,
             "query": {
@@ -27,7 +32,7 @@ export default {
                     "must": [
                         {
                             "match": {
-                                "env.keyword": env
+                                "env.keyword": store.state.env
                             },
                         },
                         {
@@ -46,7 +51,7 @@ export default {
         }
     },
 
-    topTenErrorWithSquadIdPayload(squadId) {
+    topTenErrorWithSquadIdPayload() {
         return {
             "size": 0,
             "query": {
@@ -54,7 +59,7 @@ export default {
                     "must": [
                         {
                             "match": {
-                                "squadID": squadId
+                                "squadId": store.state.squadId
                             }
                         },
                         {
@@ -73,19 +78,19 @@ export default {
         }
     },
 
-    topTenErrorWithEnvAndSquadIdPayload(env, squadId) {
+    topTenErrorWithEnvAndSquadIdPayload() {
         return {
             "size": 0,
             "query": {
                 "bool": {
                     "must": [{
                             "match": {
-                                "env.keyword": env
+                                "env.keyword": store.state.env
                             }
                         },
                         {
                             "match": {
-                                "squadID": squadId
+                                "squadId": store.state.squadId
                             }
                         },
                         {
@@ -135,7 +140,7 @@ export default {
         }
     },
 
-    topTenErrorSearchWithEnvPayload(searchTerm, env) {
+    topTenErrorSearchWithEnvPayload(searchTerm) {
         var search = "*" + searchTerm + "*";
         console.log(search);
         return {
@@ -145,7 +150,7 @@ export default {
                     "must": [
                         {
                             "match": {
-                                "env.keyword": env
+                                "env.keyword": store.state.env
                             }
                         },
                         {
@@ -172,7 +177,7 @@ export default {
         }
     },
 
-    topTenErrorSearchWithSquadIdPayload(searchTerm, squadId){
+    topTenErrorSearchWithSquadIdPayload(searchTerm){
         var search = "*" + searchTerm + "*";
         console.log(search);
         return {
@@ -182,7 +187,7 @@ export default {
                     "must": [
                         {
                             "match": {
-                                "squadID": squadId
+                                "squadId": store.state.squadId
                             }
                         },
                         {
@@ -209,7 +214,7 @@ export default {
         }
     },
 
-    topTenErrorSearchWithEnvAndSquadIdPayload(searchTerm, env, squadId){
+    topTenErrorSearchWithEnvAndSquadIdPayload(searchTerm){
         var search = "*" + searchTerm + "*";
         console.log(search);
         return {
@@ -219,12 +224,12 @@ export default {
                     "must": [
                         {
                             "match": {
-                                "squadID": squadId
+                                "squadId": store.state.squadId
                             }
                         },
                         {
                             "match": {
-                                "env.keyword": env
+                                "env.keyword": store.state.env
                             }
                         },
                         {
@@ -250,10 +255,10 @@ export default {
             }
         }
     },
-
+    ///////// TOP TEN SCENARIO
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    topTenScenarioNoEnv(squadId){
+    topTenScenarioNoEnv(){
         return{
             "size" : 0,
             "query": {
@@ -261,7 +266,7 @@ export default {
                     "must": [
                         {
                             "match": {
-                                "squadID": squadId
+                                "squadId": store.state.squadId
                             }
                         },
                         {
@@ -274,13 +279,20 @@ export default {
                 "by_scenario": {
                     "terms": {
                         "field": "scenarioName.keyword"
+                    },
+                    "aggregations": {
+                        "by_projectName": {
+                            "terms": {
+                                "field": "projectName.keyword"
+                            }
+                        }
                     }
                 }
             }
         }
     },
 
-    topTenScenarioSearchNoEnv(squadId, searchTerm){
+    topTenScenarioSearchNoEnv(searchTerm){
         var search = "*" + searchTerm + "*";
         console.log(search);
         return {
@@ -290,7 +302,7 @@ export default {
                     "must": [
                         {
                             "match": {
-                                "squadID": squadId
+                                "squadId": store.state.squadId
                             }
                         },
                         {
@@ -311,13 +323,20 @@ export default {
                 "by_scenario": {
                     "terms": {
                         "field": "scenarioName.keyword"
+                    },
+                    "aggregations": {
+                        "by_projectName": {
+                            "terms": {
+                                "field": "projectName.keyword"
+                            }
+                        }
                     }
                 }
             }
         }
     },
 
-    topTenScenarioWithEnv(squadId, env){
+    topTenScenarioWithEnv(){
         return{
             "size" : 0,
             "query": {
@@ -325,12 +344,12 @@ export default {
                     "must": [
                         {
                             "match": {
-                                "squadID": squadId
+                                "squadId": store.state.squadId
                             }
                         },
                         {
                             "match": {
-                                "env.keyword": env
+                                "env.keyword": store.state.env
                             }
                         },
                         {
@@ -343,13 +362,20 @@ export default {
                 "by_scenario": {
                     "terms": {
                         "field": "scenarioName.keyword"
+                    },
+                    "aggregations": {
+                        "by_projectName": {
+                            "terms": {
+                                "field": "projectName.keyword"
+                            }
+                        }
                     }
                 }
             }
         }
     },
 
-    topTenScenarioSearchWithEv(squadId, searchTerm, env){
+    topTenScenarioSearchWithEv(searchTerm){
         var search = "*" + searchTerm + "*";
         console.log(search);
         return {
@@ -359,12 +385,12 @@ export default {
                     "must": [
                         {
                             "match": {
-                                "squadID": squadId
+                                "squadId": store.state.squadId
                             }
                         },
                         {
                             "match": {
-                                "env.keyword": env
+                                "env.keyword": store.state.env
                             }
                         },
                         {
@@ -385,9 +411,16 @@ export default {
                 "by_scenario": {
                     "terms": {
                         "field": "scenarioName.keyword"
+                    },
+                    "aggregations": {
+                        "by_projectName": {
+                            "terms": {
+                                "field": "projectName.keyword"
+                            }
+                        }
                     }
                 }
             }
         }
-    }
+    },
 }

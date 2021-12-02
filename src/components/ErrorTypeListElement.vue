@@ -1,16 +1,16 @@
 <template>
   <div>
     <div class="row m-2 m-2 mt-4">
-      <div class="col-6">
+      <div class="col-7">
         <p>{{ errorType }}</p>
       </div>
       <div class="col-2 text-center">
-        <p class="label p-1">
+        <p class="label p-1" v-if="!hideOccurence">
           <b>{{ occurence }} </b>occurence
         </p>
       </div>
       <div class="col-1"></div>
-      <div class="col-1">
+      <div class="col-2">
         <router-link :to="'/error-detail/' + errorType">
           <button class="btn btn-primary">View More</button>
         </router-link>
@@ -26,6 +26,10 @@ export default {
   props: {
     errorType: String,
     occurence: Number,
+    hideOccurence: {
+      default: false,
+      type: Boolean
+    }
   },
 };
 </script>

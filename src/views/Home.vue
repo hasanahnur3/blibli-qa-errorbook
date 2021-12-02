@@ -4,7 +4,12 @@
     <FilterCard />
     <br />
     <div :key="$store.state.renderCounter">
-      <!-- <MostCommonError/> -->
+      <div v-if="searchIndex == 0">
+        <MostCommonError/>
+      </div>
+      <div v-if="searchIndex == 1">
+        <MostCommonScenario/>
+      </div>
     </div>
 
     <!-- SEARCH NAVBAR -->
@@ -36,28 +41,38 @@
     <!-- SEARCH BY ERROR -->
     <div v-if="searchIndex == 0" :key="$store.state.renderCounter">
       <!-- SEARCH SELECTOR -->
-      <div class="input-group input-group-lg">
-        <span class="input-group-text" id="inputGroup-sizing-lg-error"
-          >Search An Error:
+      <div class="input-group">
+        <span class="input-group-text"
+          >Search By Error Type:
         </span>
         <input
           type="text"
           class="form-control"
-          aria-label="Sizing example input"
-          aria-describedby="inputGroup-sizing-lg-error"
           v-model="searchErrorKey"
         />
-        {{ searchErrorKey }}
+        <button class="btn btn-outline-primary" @click="clearBtnError">Clear</button>
         <button class="btn btn-primary" @click="changeListTopTenError">Search</button>
       </div>
-      <CategorySelectorCard />
+      <br>
+      <div class="input-group">
+        <span class="input-group-text"
+        >Search By Category:
+        </span>
+        <input
+            type="text"
+            class="form-control"
+            v-model="searchCategoryKey"
+        />
+        <button class="btn btn-outline-primary" @click="clearBtnCategory">Clear</button>
+        <button class="btn btn-primary" @click="changeListTopTenErrorFromCategory">Search</button>
+      </div>
+<!--      <CategorySelectorCard />-->
       <!-- END OF SEARCH SELECTOR -->
       <br />
-      <div :key="searchRenderCounter">
+      <div :key="searchRenderCounter" v-if="searchCategoryKey == ''">
         <div v-if="listTopTenError.length == 0" class="text-center">
           <h5>No Error Found</h5>
         </div>
-        {{ listTopTenError }}
         <div
           v-for="(item, index) in listTopTenError"
           v-bind:item="item"
@@ -70,10 +85,30 @@
           />
         </div>
       </div>
+      <div :key="searchRenderCounter" v-if="searchCategoryKey != ''">
+        <div v-if="listErrorFromCategory.length == 0" class="text-center">
+          <h5>No Error Found</h5>
+        </div>
+        <div
+            v-for="(item, index) in listErrorFromCategory"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+        >
+          <ErrorTypeListElement
+              :errorType="item._source.errorType"
+              :hideOccurence=true
+          />
+        </div>
+      </div>
       <br />
-      <div class="text-center">
+      <div class="text-center" v-if="searchCategoryKey == ''">
         <p v-if="searchErrorKey == ''">Showing Top 10 Most Common Errors <span> in environment {{ $store.state.env }} and squad {{ $store.state.selectedCollab.collabName }} </span> </p>
         <p v-if="searchErrorKey != ''">Showing Result of Search Keyword: {{ searchErrorKey }} <span> in environment {{ $store.state.env }} and squad {{ $store.state.selectedCollab.collabName }} </span>  </p>
+      </div>
+
+      <div class="text-center" v-if="searchCategoryKey != ''">
+        <p> Showing Error Type with Category: <b>{{ searchCategoryKey }} </b>(regardless of env, squad and time) </p>
       </div>
     </div>
     <!-- END OF SEARCH BY ERROR -->
@@ -81,17 +116,16 @@
     <!-- SEARCH BY SCENARIO -->
     <div v-if="searchIndex == 1" :key="$store.state.renderCounter">
       <!-- SEARCH SELECTOR -->
-      <div class="input-group input-group-lg">
-        <span class="input-group-text" id="inputGroup-sizing-lg"
+      <div class="input-group">
+        <span class="input-group-text"
           >Search A Scenario:
         </span>
         <input
           type="text"
           class="form-control"
-          aria-label="Sizing example input"
-          aria-describedby="inputGroup-sizing-lg"
           v-model="searchScenarioKey"
         />
+        <button class="btn btn-outline-primary" @click="clearBtnScenario">Clear</button>
         <button class="btn btn-primary" @click="changeListTopTenScenario">Search</button>
       </div>
       <br />
@@ -99,7 +133,7 @@
         <div v-if="listTopTenScenario.length == 0" class="text-center">
           <h5>No Scenario Found</h5>
         </div>
-        {{ listTopTenScenario }}
+<!--        {{ listTopTenScenario }}-->
         <div
             v-for="(item, index) in listTopTenScenario"
             v-bind:item="item"
@@ -109,6 +143,7 @@
           <ScenarioListElement
               :scenario="item.key"
               :occurence="item.doc_count"
+              :scenarioProject="item.by_projectName.buckets[0].key"
           />
         </div>
       </div>
@@ -127,20 +162,23 @@
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 import FilterCard from "@/components/FilterCard.vue";
-import CategorySelectorCard from "@/components/CategorySelectorCard.vue";
+// import CategorySelectorCard from "@/components/CategoryCard.vue";
 import ErrorTypeListElement from "@/components/ErrorTypeListElement.vue";
 import ScenarioListElement from "@/components/ScenarioListElement";
-// import MostCommonError from "@/components/kibana/MostCommonError.vue";
+import MostCommonError from "@/components/kibana/MostCommonError.vue";
+import MostCommonScenario from "@/components/kibana/MostCommonScenario";
 import ElasticService from "@/service/service.js";
+import ElasticCategoryService from "@/service/CategoryService.js";
 
 export default {
   name: "Home",
   components: {
     FilterCard,
-    CategorySelectorCard,
+    // CategorySelectorCard,
     ErrorTypeListElement,
     ScenarioListElement,
-    // MostCommonError,
+    MostCommonError,
+    MostCommonScenario,
   },
   data() {
     return {
@@ -150,8 +188,10 @@ export default {
       searchIndex: 0,
       searchErrorKey: "",
       searchScenarioKey: "",
+      searchCategoryKey: "",
       searchRenderCounter: 0,
       listTopTenError: Array,
+      listErrorFromCategory: Array,
       listTopTenScenario: Array,
     };
   },
@@ -161,6 +201,9 @@ export default {
       this.changeListTopTenError();
       if(this.searchIndex == 1){
         this.changeListTopTenScenario();
+      }
+      if(this.searchIndex==1 && this.$store.state.squadId == 0){
+        this.changeSearchIndex();
       }
       console.log("masuk watchh");
     }
@@ -182,7 +225,7 @@ export default {
       // NO ENV //
       if(this.$store.state.env == "ALL"){
         if (this.searchScenarioKey != ""){
-          ElasticService.getTopTenScenarioSearchNoEnv(this.$store.state.squadId, this.searchScenarioKey).then(
+          ElasticService.getTopTenScenarioSearchNoEnv(this.searchScenarioKey).then(
               (response) => {
                 console.log(response);
                 this.listTopTenScenario =
@@ -191,7 +234,7 @@ export default {
               }
           );
         }else{
-          ElasticService.getTopTenScenarioNoEnv(this.$store.state.squadId).then(
+          ElasticService.getTopTenScenarioNoEnv().then(
               (response) => {
                 console.log(response);
                 this.listTopTenScenario =
@@ -204,7 +247,7 @@ export default {
       // WITH ENV //
       else{
         if (this.searchScenarioKey != ""){
-          ElasticService.getTopTenScenarioSearchWithEnv(this.$store.state.squadId, this.searchScenarioKey, this.$store.state.env).then(
+          ElasticService.getTopTenScenarioSearchWithEnv(this.searchScenarioKey).then(
               (response) => {
                 console.log(response);
                 this.listTopTenScenario =
@@ -213,7 +256,7 @@ export default {
               }
           );
         }else{
-          ElasticService.getTopTenScenarioWithEnv(this.$store.state.squadId, this.$store.state.env).then(
+          ElasticService.getTopTenScenarioWithEnv().then(
               (response) => {
                 console.log(response);
                 this.listTopTenScenario =
@@ -223,6 +266,28 @@ export default {
           );
         }
       }
+    },
+    clearBtnError(){
+      this.searchErrorKey = "";
+      this.changeListTopTenError();
+    },
+    clearBtnCategory(){
+      this.searchCategoryKey = "";
+      this.listErrorFromCategory = null;
+    },
+    clearBtnScenario(){
+      this.searchScenarioKey = "";
+      this.changeListTopTenScenario();
+    },
+    changeListTopTenErrorFromCategory(){
+      this.searchErrorKey = "";
+      this.changeListTopTenError();
+      ElasticCategoryService.getErrorFromCategory(this.searchCategoryKey).then(
+          (response) => {
+            this.listErrorFromCategory =
+                response.data.hits.hits;
+          }
+      );
     },
     changeListTopTenError() {
       console.log(this.searchErrorKey);
@@ -253,14 +318,14 @@ export default {
       ) {
         console.log("changeListTopTenError 2");
         if (this.searchErrorKey != "") {
-          ElasticService.getTopTenErrorSearchWithEnv(this.searchErrorKey, this.$store.state.env).then(
+          ElasticService.getTopTenErrorSearchWithEnv(this.searchErrorKey).then(
               (response) => {
                 this.listTopTenError =
                     response.data.aggregations.by_errorType.buckets;
               }
           );
         } else {
-          ElasticService.getTopTenErrorWithEnv(this.$store.state.env).then(
+          ElasticService.getTopTenErrorWithEnv().then(
             (response) => {
               this.listTopTenError =
                 response.data.aggregations.by_errorType.buckets;
@@ -275,16 +340,12 @@ export default {
       ) {
         console.log("changeListTopTenError 3");
         if (this.searchErrorKey != "") {
-          ElasticService.getTopTenErrorSearchWithSquadId(this.searchErrorKey,
-              this.$store.state.squadId
-          ).then((response) => {
+          ElasticService.getTopTenErrorSearchWithSquadId(this.searchErrorKey).then((response) => {
             this.listTopTenError =
                 response.data.aggregations.by_errorType.buckets;
           });
         } else {
-          ElasticService.getTopTenErrorWithSquadId(
-            this.$store.state.squadId
-          ).then((response) => {
+          ElasticService.getTopTenErrorWithSquadId().then((response) => {
             this.listTopTenError =
               response.data.aggregations.by_errorType.buckets;
           });
@@ -297,18 +358,12 @@ export default {
       ) {
         console.log("changeListTopTenError 4");
         if (this.searchErrorKey != "") {
-          ElasticService.getTopTenErrorSearchWithEnvAndSquadId(this.searchErrorKey,
-              this.$store.state.env,
-              this.$store.state.squadId
-          ).then((response) => {
+          ElasticService.getTopTenErrorSearchWithEnvAndSquadId(this.searchErrorKey).then((response) => {
             this.listTopTenError =
                 response.data.aggregations.by_errorType.buckets;
           });
         } else {
-          ElasticService.getTopTenErrorWithEnvAndSquadId(
-            this.$store.state.env,
-            this.$store.state.squadId
-          ).then((response) => {
+          ElasticService.getTopTenErrorWithEnvAndSquadId().then((response) => {
             this.listTopTenError =
               response.data.aggregations.by_errorType.buckets;
           });

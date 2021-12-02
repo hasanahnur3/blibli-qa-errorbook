@@ -12,12 +12,13 @@ export default new Vuex.Store({
     listTopTenError: Array,
     collab: Array,
     selectedCollab: null,
+    scenarioName: null,
+    scenarioProject: null,
     time:2,
   },
   mutations: {
     changeEnv(state, newEnv) {
       state.env = newEnv;
-      // this.commit("changeListTopTenError");
       state.renderCounter++;
     },
     changeTime(state, time){
@@ -32,7 +33,17 @@ export default new Vuex.Store({
           break;
         }
       }
-      // this.commit("changeListTopTenError");
+      state.renderCounter++;
+    },
+    changeScenario(state, {scenarioName, scenarioProject}){
+      console.log("masuk, scenarioProject = " + scenarioProject + " " + scenarioName);
+      state.scenarioName = scenarioName;
+      state.scenarioProject = scenarioProject;
+      state.renderCounter++;
+      console.log(state.scenarioProject);
+      console.log(state.scenarioName);
+    },
+    changeRenderCounter(state){
       state.renderCounter++;
     },
     // changeListTopTenError(state) {

@@ -1,6 +1,14 @@
 <template>
-<div>
-  <iframe :src="this.iFrameUrl" height="600" width="70%" ></iframe>
+<div class="row">
+  <div class="col-2">
+
+  </div>
+  <div class="col-8">
+    <iframe :src="this.iFrameUrl" height="600" width="100%" ></iframe>
+  </div>
+  <div class="col-2">
+
+  </div>
 </div>
 </template>
 
@@ -17,10 +25,7 @@ export default {
     },
     data(){
         return{
-            // iFrameUrl: "http://172.18.69.96:5601/app/dashboards#/view/75081950-3663-11ec-a8ab-854339ac1288?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:1000),time:(from:now-30d,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(enhancements:()),gridData:(h:15,i:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',w:24,x:0,y:0),id:f060e6a0-3662-11ec-a8ab-854339ac1288,panelIndex:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',type:lens,version:'7.12.1')),query:(language:kuery,query:'[query]'),tags:!(),timeRestore:!f,title:'Error%20Book',viewMode:view)&hide-filter-bar=true",
-            // iFrameUrl: "http://172.18.69.96:5601/app/dashboards#/view/75081950-3663-11ec-a8ab-854339ac1288?embed=true&_g=(filters:!(),query:(language:kuery,query:''),refreshInterval:(pause:!t,value:1000),time:(from:now-1y,to:now))&_a=(description:'',expandedPanelId:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(enhancements:()),gridData:(h:17,i:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',w:31,x:0,y:0),id:f060e6a0-3662-11ec-a8ab-854339ac1288,panelIndex:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',type:lens,version:'7.12.1')),query:(language:kuery,query:'[query]'),tags:!(),timeRestore:!f,title:'Error%20Book',viewMode:edit)",
-            // iFrameUrl: "http://172.18.69.96:5601/app/dashboards#/view/75081950-3663-11ec-a8ab-854339ac1288?embed=true&_g=(filters:!(),query:(language:kuery,query:''),refreshInterval:(pause:!t,value:1000),time:(from:now-1y,to:now))&_a=(description:'',expandedPanelId:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(enhancements:()),gridData:(h:17,i:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',w:31,x:0,y:0),id:f060e6a0-3662-11ec-a8ab-854339ac1288,panelIndex:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',type:lens,version:'7.12.1')),query:(language:kuery,query:'[query]'),tags:!(),timeRestore:!f,title:'Error%20Book',viewMode:edit)&show-query-input=true&hide-filter-bar=true",
-            iFrameUrl: "http://172.18.69.96:5601/app/dashboards#/view/75081950-3663-11ec-a8ab-854339ac1288?embed=true&_g=(filters:!(),query:(language:kuery,query:''),refreshInterval:(pause:!t,value:1000),time:(from:now-1y,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(enhancements:()),gridData:(h:21,i:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',w:48,x:0,y:0),id:f060e6a0-3662-11ec-a8ab-854339ac1288,panelIndex:'1e9876d4-1c63-4a5e-82fc-f5672c98c4c6',type:lens,version:'7.12.1')),query:(language:kuery,query:'[query]'),tags:!(),timeRestore:!f,title:'Error%20Book',viewMode:view)&hide-filter-bar=true"
+            iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/8ce2d190-5202-11ec-b5e3-33bcb8e6aefd?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'85143acc-ed96-46e5-8d5c-537229220a7a',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!f,title:'Most%20Common%20Error',viewMode:view)&hide-filter-bar=true"
         }
     },
     mounted(){
@@ -34,6 +39,7 @@ export default {
     methods: {
         refreshQuery(){
             var query = "";
+            var fromTime = "";
 
             if(this.getEnvState == "UATA"){
                 query = query + "env.keyword%20:%20%22UATA%22"
@@ -45,15 +51,30 @@ export default {
 
             if(this.$store.state.squadId != 0){
                 if(this.$store.state.env == "ALL"){
-                    query = query + "squadID%20:%20" + this.$store.state.squadId
+                    query = query + "squadId%20:%20" + this.$store.state.squadId
                 }else{
-                    query = query + "%20and%20squadID%20:%20" + this.$store.state.squadId
+                    query = query + "%20and%20squadId%20:%20" + this.$store.state.squadId
                 }
             }
 
-            this.iFrameUrl = this.iFrameUrl.replace("[query]", query);
+            if(this.$store.state.time == 0){
+                fromTime =  "now-1d";
+            }else if(this.$store.state.time == 1){
+                fromTime =  "now-7d";
+            }else{
+                fromTime =  "now-30d";
+            }
+
+            this.iFrameUrl = this.iFrameUrl.replace("[query]", query).replace("[time]", fromTime);
             console.log(query);
         }
     }
 }
 </script>
+
+<style>
+iframe {
+  display: block;
+  border-style:none;
+}
+</style>

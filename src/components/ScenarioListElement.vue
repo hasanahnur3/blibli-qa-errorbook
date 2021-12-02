@@ -10,10 +10,8 @@
         </p>
       </div>
       <div class="col-1"></div>
-      <div class="col-1">
-        <router-link :to="'/scenario-detail/' + scenario">
-          <button class="btn btn-primary">View More</button>
-        </router-link>
+      <div class="col-2">
+          <button class="btn btn-primary" @click="handleScenarioNameClick">View More</button>
       </div>
     </div>
     <hr />
@@ -26,7 +24,18 @@ export default {
   props: {
     scenario: String,
     occurence: Number,
+    scenarioProject: String,
   },
+  methods: {
+    handleScenarioNameClick(){
+      const scenarioName = this.scenario;
+      const scenarioProject = this.scenarioProject;
+      console.log("props scenario: " + scenarioName);
+      console.log(scenarioProject);
+      this.$store.commit("changeScenario", {scenarioName, scenarioProject});
+      this.$router.push("/scenario-detail");
+    },
+  }
 };
 </script>
 

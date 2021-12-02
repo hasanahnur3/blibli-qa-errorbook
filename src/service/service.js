@@ -1,64 +1,85 @@
 import Axios from 'axios';
 import HomePayload from './HomePayload';
+import ErrorDetailPayload from "@/service/ErrorDetailPayload";
+import ScenarioDetailPayload from "@/service/ScenarioDetailPayload";
 
-// const INDEX_NAME = "/scenario_error_test";
+// const INDEX_NAME = "/error_summary_index";
 
-const ELASTIC_URL = "http://172.18.69.96:9200";
+const ELASTIC_URL = "http://159.223.37.9:9200";
 
 export default {
 
     getTopTenError() {
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenErrorPayload());
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorPayload());
     },
 
-    getTopTenErrorWithEnv(env) {
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenErrorWithEnvPayload(env));
+    getTopTenErrorWithEnv() {
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorWithEnvPayload());
     },
 
-    getTopTenErrorWithSquadId(squadId) {
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenErrorWithSquadIdPayload(squadId));
+    getTopTenErrorWithSquadId() {
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorWithSquadIdPayload());
     },
 
-    getTopTenErrorWithEnvAndSquadId(env, squadId) {
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenErrorWithEnvAndSquadIdPayload(env, squadId));
+    getTopTenErrorWithEnvAndSquadId() {
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorWithEnvAndSquadIdPayload());
     },
 
     getCollab() {
-        return Axios.get("https://83fdf133-c3f4-4de6-9169-0e9040ed4cb7.mock.pstmn.io/collab");
+        return Axios.get("https://a515e70a-5b79-41da-bc13-ce2b4724d594.mock.pstmn.io/collab");
     },
 
     getTopTenErrorSearch(searchTerm){
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenErrorSearchPayload(searchTerm));
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorSearchPayload(searchTerm));
     },
 
-    getTopTenErrorSearchWithEnv(searchTerm, env){
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenErrorSearchWithEnvPayload(searchTerm, env));
+    getTopTenErrorSearchWithEnv(searchTerm){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorSearchWithEnvPayload(searchTerm));
     },
 
-    getTopTenErrorSearchWithSquadId(searchTerm, squadId){
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenErrorSearchWithSquadIdPayload(searchTerm, squadId));
+    getTopTenErrorSearchWithSquadId(searchTerm){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorSearchWithSquadIdPayload(searchTerm));
     },
 
-    getTopTenErrorSearchWithEnvAndSquadId(searchTerm, env, squadId){
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenErrorSearchWithEnvAndSquadIdPayload(searchTerm, env, squadId));
+    getTopTenErrorSearchWithEnvAndSquadId(searchTerm){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorSearchWithEnvAndSquadIdPayload(searchTerm));
     },
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    getTopTenScenarioNoEnv(squadId){
-        console.log("debug scenario: " + squadId);
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenScenarioNoEnv(squadId));
+    getTopTenScenarioNoEnv(){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenScenarioNoEnv());
     },
 
-    getTopTenScenarioSearchNoEnv(squadId, searchTerm){
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenScenarioSearchNoEnv(squadId, searchTerm));
+    getTopTenScenarioSearchNoEnv(searchTerm){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenScenarioSearchNoEnv(searchTerm));
     },
 
-    getTopTenScenarioWithEnv(squadId, env){
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenScenarioWithEnv(squadId, env));
+    getTopTenScenarioWithEnv(){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenScenarioWithEnv());
     },
 
-    getTopTenScenarioSearchWithEnv(squadId, searchTerm, env){
-        return Axios.post(ELASTIC_URL + "/scenario_error_test/_search", HomePayload.topTenScenarioSearchWithEv(squadId, searchTerm, env));
+    getTopTenScenarioSearchWithEnv(searchTerm){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenScenarioSearchWithEv(searchTerm));
+    },
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    getListScenarioFromErrorTypeNoEnv(errorType){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", ErrorDetailPayload.listScenarioFromErrorTypeNoEnvPayload(errorType));
+    },
+
+    getListScenarioFromErrorTypeWithEnv(errorType){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", ErrorDetailPayload.listScenarioFromErrorTypeWithEnvPayload(errorType));
+    },
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    getListErrorFromScenarioNoEnv(){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", ScenarioDetailPayload.listErrorFromScenarioNoEnvPayload());
+    },
+
+    getListErrorFromScenarioWithEnv(){
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", ScenarioDetailPayload.listErrorFromScenarioWithEnvPayload());
     }
 }

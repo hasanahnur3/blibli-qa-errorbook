@@ -19,7 +19,7 @@ export default {
     lastMonth(){
         return {
             "time": {
-                "gte": "now-2M",
+                "gte": "now-30d",
                 "lte": "now"
             }
         }
@@ -36,4 +36,5 @@ export default {
             return this.lastMonth();
         }
     }
+
 }

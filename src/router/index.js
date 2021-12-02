@@ -14,6 +14,11 @@ const routes = [
     path: '/error-detail/:errorType',
     name: 'ErrorDetail',
     component: () => import( '../views/ErrorDetail.vue')
+  },
+  {
+    path: '/scenario-detail',
+    name: 'ScenarioDetail',
+    component: () => import( '../views/ScenarioDetail.vue')
   }
 ]
 

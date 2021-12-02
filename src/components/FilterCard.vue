@@ -58,11 +58,12 @@
           </div>
         </div>
         <div class="row mt-3">
-          <div class="col-1"></div>
-          <div class="col-2">
+          <div class="col-1" :hidden="envOnly"></div>
+          <div class="col-3" :hidden="!envOnly"></div>
+          <div class="col-2" :hidden="envOnly">
             <h5>Select Squad:</h5>
           </div>
-          <div class="col-3">
+          <div class="col-3" :hidden="envOnly">
             <select
               class="form-select"
               aria-label="Default select example"
@@ -91,9 +92,9 @@
                 v-model="selectedTime"
                 @change="changeTime"
             >
-              <option value="0">Yesterday</option>
-              <option value="1">Last Week</option>
-              <option value="2">Last Month</option>
+              <option value="0">Since Yesterday</option>
+              <option value="1">Since Last Week</option>
+              <option value="2">Since Last Month</option>
               <!-- <option value="1" :selected="$store.state.squadId == 1">
                 Engangement
               </option> -->
@@ -108,6 +109,12 @@
 <script>
 export default {
   name: "FilterCard",
+  props: {
+    envOnly: {
+      default: false,
+      type: Boolean
+    }
+  },
   data() {
     return {
       selectedSquad: Number,
