@@ -5,9 +5,9 @@ import ScenarioDetailPayload from "@/service/ScenarioDetailPayload";
 
 // const INDEX_NAME = "/error_summary_index";
 
-// const ELASTIC_URL = "http://159.223.37.9:9200";
+const ELASTIC_URL = "http://159.223.37.9:9200";
 
-const ELASTIC_URL = "api";
+// const ELASTIC_URL = "api";
 
 export default {
 
