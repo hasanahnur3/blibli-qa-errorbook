@@ -5,18 +5,18 @@ import ScenarioDetailPayload from "@/service/ScenarioDetailPayload";
 
 // const INDEX_NAME = "/error_summary_index";
 
-const ELASTIC_URL = "http://159.223.37.9:9200";
+// const ELASTIC_URL = "http://159.223.37.9:9200";
 
-// const ELASTIC_URL = "api";
+const ELASTIC_URL = "api";
 
 export default {
 
     getTopTenError() {
-        return Axios.post("error_summary_index/_search", HomePayload.topTenErrorPayload());
+        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorPayload());
     },
 
     getTopTenErrorWithEnv() {
-        return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorWithEnvPayload());
+        return Axios.post("/"+ ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorWithEnvPayload());
     },
 
     getTopTenErrorWithSquadId() {
