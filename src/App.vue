@@ -2,8 +2,7 @@
 
   <html>
   <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
-      script-src 'unsafe-inline'; frame-src *;">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'">
   </head>
   <body>
   <div id="app">
