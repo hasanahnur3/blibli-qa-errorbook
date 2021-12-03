@@ -1,19 +1,47 @@
 <template>
-  <div class="pt-4">
+  <div class="pt-4 pb-3">
     <div class="">
       <div class="">
-        <div v-if="categoryLoaded" class="main justify-content-center" >
-          <div
-              v-for="(item, index) in errorCategory.categories"
-              v-bind:item="item"
-              v-bind:index="index"
-              v-bind:key="index"
-          >
-            <CategoryLabel
-                :categoryName = "item"
-            />
+        <div v-if="categoryLoaded" :key="$store.state.isLoggedIn">
+          <div class="main justify-content-center">
+            <h5 class="mb-4 pb-2" v-if="listCategories.length == 0">No Categories Found</h5>
+            <div
+                v-for="(item, index) in listCategories"
+                v-bind:item="item"
+                v-bind:index="index"
+                v-bind:key="index"
+            >
+              <CategoryLabel
+                  :categoryName = "item"
+              />
+            </div>
           </div>
 
+          <div v-if="!$store.state.isLoggedIn && listCategories.length == 0">
+            <hr class="col-4 offset-4">
+          </div>
+
+          <div v-if="!$store.state.isLoggedIn" class="align-content-center justify-content-center text-center">
+            <h5 class="pt-3">Log In untuk menambah category</h5>
+            <button class="btn btn-primary" @click="provideCache">Log In</button>
+          </div>
+
+          <div v-if="$store.state.isLoggedIn" class="container justify-content-center text-center">
+            <div class="col-6 offset-3">
+              <div class="input-group">
+                <span class="input-group-text"
+                >Add a Category:
+                </span>
+                <input
+                    type="text"
+                    class="form-control"
+                    v-model="newCategory"
+                />
+                <button class="btn btn-primary" @click="submitNewCategory">Submit</button>
+              </div>
+            </div>
+            <p class="text-danger pt-2" v-if="!hideInputWarning">That Category is Already Exist</p>
+          </div>
         </div>
       </div>
     </div>
@@ -34,8 +62,11 @@ export default {
   },
   data() {
     return{
-      errorCategory: Object,
+      id:"",
+      listCategories: [],
       categoryLoaded: false,
+      newCategory: "",
+      hideInputWarning: true,
     }
   },
   methods:{
@@ -43,13 +74,35 @@ export default {
       this.categoryLoaded = false;
       ElasticCategoryService.getCategory(this.errorType).then(
           (response) => {
-            this.errorCategory =
-                response.data.hits.hits[0]._source;
-            this.listCategories = this.errorCategory.categories;
-            console.log(this.errorCategory);
+            this.id = response.data.hits.hits[0]._id;
+            this.listCategories = response.data.hits.hits[0]._source.categories;
             this.categoryLoaded =true;
           }
-      );
+      ).catch(() => {
+        this.categoryLoaded = true;
+        this.listCategories = [];
+      });
+    },
+    provideCache(){
+      this.$cookies.set("badak-username", "anonymous user");
+      this.$store.commit("changeIsLoggedIn", true);
+    },
+    submitNewCategory(){
+      if(this.listCategories.includes(this.newCategory)){
+        this.hideInputWarning = false;
+        setTimeout(() => this.hideInputWarning = true, 1500);
+      }else{
+        if(this.id != ""){
+          this.categoryLoaded = false;
+          this.listCategories.push(this.newCategory);
+          ElasticCategoryService.updateCategory(this.id, this.listCategories).then(
+              (response) => {
+                console.log(response.data);
+                this.categoryLoaded = true;
+              }
+          );
+        }
+      }
     }
   },
   mounted() {

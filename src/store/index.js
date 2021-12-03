@@ -15,6 +15,7 @@ export default new Vuex.Store({
     scenarioName: null,
     scenarioProject: null,
     time:2,
+    isLoggedIn: false,
   },
   mutations: {
     changeEnv(state, newEnv) {
@@ -45,6 +46,9 @@ export default new Vuex.Store({
     },
     changeRenderCounter(state){
       state.renderCounter++;
+    },
+    changeIsLoggedIn(state, loggedIn){
+      state.isLoggedIn = loggedIn;
     },
     // changeListTopTenError(state) {
     //   if (state.env == "ALL" && state.squadId == 0) {

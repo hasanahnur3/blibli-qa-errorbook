@@ -10,14 +10,14 @@
     <div v-if="$store.state.squadId == 0">
       <div :key="$store.state.renderCounter">
         <div class="row">
-<!--            <SquadErrorPercentage :errorType="this.errorType"/>-->
-<!--            <ErrorTypeOccurence :errorType="this.errorType"/>-->
+            <SquadErrorPercentage :errorType="this.errorType"/>
+            <ErrorTypeOccurence :errorType="this.errorType"/>
         </div>
 
         <br>
         <hr>
         <br>
-        <div :key="isLoggedIn">
+        <div>
           <h3 class="mb-2"><b>Categories</b></h3>
           <div class="container">
             <CategoryCard :errorType="this.errorType"/>
@@ -26,7 +26,7 @@
         <hr>
         <br>
 
-        <div :key="isLoggedIn">
+        <div :key="$store.state.isLoggedIn">
           <h3 class="mb-3"><b>Comments</b></h3>
 
           <div>
@@ -50,7 +50,7 @@
               />
             </div>
 
-            <div v-if="isLoggedIn">
+            <div v-if="$store.state.isLoggedIn">
               <CommentInput
                   :username="$cookies.get('badak-username')"
                   :errorType="this.errorType"
@@ -59,7 +59,7 @@
             </div>
           </div>
 
-          <div v-if="!isLoggedIn" class="align-content-center justify-content-center text-center">
+          <div v-if="!$store.state.isLoggedIn" class="align-content-center justify-content-center text-center">
             <h5 class="pt-3">Log In untuk menulis komentar</h5>
             <button class="btn btn-primary" @click="provideCache">Log In</button>
           </div>
@@ -94,8 +94,8 @@ import ElasticService from "@/service/service";
 import CommentService from "@/service/CommentService";
 import CommentInput from "@/components/CommentInput";
 import CommentCard from "@/components/CommentCard";
-// import SquadErrorPercentage from "@/components/kibana/SquadErrorPercentage";
-// import ErrorTypeOccurence from "@/components/kibana/ErrorTypeOccurence";
+import SquadErrorPercentage from "@/components/kibana/SquadErrorPercentage";
+import ErrorTypeOccurence from "@/components/kibana/ErrorTypeOccurence";
 import ErrorTypeOccurenceCentered from "@/components/kibana/ErrorTypeOccurenceCentered";
 import CategoryCard from "@/components/CategoryCard";
 
@@ -106,8 +106,8 @@ export default {
     FilterCard,
     CommentInput,
     CommentCard,
-    // SquadErrorPercentage,
-    // ErrorTypeOccurence,
+    SquadErrorPercentage,
+    ErrorTypeOccurence,
     ErrorTypeOccurenceCentered,
     CategoryCard
   },
@@ -117,7 +117,6 @@ export default {
       listScenario: Array,
       listComment: [],
       dataLoaded: false,
-      isLoggedIn: Boolean,
       columns: ["scenario_name", "error_count", "project_name"],
       options: {
         headings: {
@@ -149,15 +148,15 @@ export default {
     updateListComment(){
       this.$router.go();
     },
-    provideCache(){
-      this.$cookies.set("badak-username", "anonymous user");
-      this.isLoggedIn = true;
-    },
     handleScenarioNameClick(scenarioName, scenarioProject){
       console.log("ini nama project: " + scenarioProject);
       console.log("ini nama scenario: " + scenarioName);
       this.$store.commit("changeScenario", {scenarioName, scenarioProject});
       this.$router.push("/scenario-detail");
+    },
+    provideCache(){
+      this.$cookies.set("badak-username", "anonymous user");
+      this.$store.commit("changeIsLoggedIn", true);
     },
     changeListScenario() {
       if (this.$store.state.squadId != 0){
@@ -203,7 +202,7 @@ export default {
     this.getComments();
     this.changeListScenario();
     if(this.$cookies.get("badak-username") == null){
-      this.isLoggedIn = false;
+      this.$store.commit("changeIsLoggedIn", false);
     }
   },
 };
