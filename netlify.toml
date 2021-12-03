@@ -3,9 +3,3 @@
   to = "http://159.223.37.9:9200/:splat"
   status = 200
   force = true
-
-[[redirects]]
-    from = "/kibana/*"
-    to = "http://159.223.37.9:5601/:splat"
-    status = 200
-    force = true
