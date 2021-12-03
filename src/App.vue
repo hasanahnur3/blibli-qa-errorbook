@@ -2,6 +2,7 @@
 
   <html>
   <head>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <!--    <meta http-equiv="Content-Security-Policy" content="frame-src * 'unsafe-inline' 'unsafe-eval'; script-src 'sha256-P5polb1UreUSOe5V/Pv7tc+yeZuJXiOi/3fqhGsU7BE='">-->
   </head>
   <body>
