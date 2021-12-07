@@ -21,7 +21,7 @@ const provideCookies = () => {
 }
 
 const deleteCookies = () => {
- cookie.remove("badak-username");
+  cookie.remove("badak-username");
 }
 
 export default new Vuex.Store({

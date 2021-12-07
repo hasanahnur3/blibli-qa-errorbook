@@ -106,6 +106,7 @@ export default {
   },
   mounted() {
     this.changeListError();
+    this.$store.commit("updateCollab");
   },
 }
 
