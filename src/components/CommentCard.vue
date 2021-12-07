@@ -6,7 +6,7 @@
           <p class="text-md"><b>{{ username }}</b></p>
         </div>
         <div class="col-8 text-end">
-          <p class="text-secondary text-opacity-75 text-sm"> created: {{ createdAt }} <span v-if="updatedAt != undefined">&nbsp;&nbsp;&nbsp;updated: {{ updatedAt }}</span></p>
+          <p class="text-secondary text-opacity-75 text-sm"> created: {{ createdAt.slice(0, 19).replace(/-/g, "/").replace("T", " ") }} <span v-if="updatedAt != undefined">&nbsp;&nbsp;&nbsp;updated: {{ updatedAt.slice(0, 19).replace(/-/g, "/").replace("T", " ") }}</span></p>
         </div>
       </div>
       <p>{{ comment }}</p>
