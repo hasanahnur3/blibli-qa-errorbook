@@ -36,5 +36,4 @@ export default {
             return this.lastMonth();
         }
     }
-
 }

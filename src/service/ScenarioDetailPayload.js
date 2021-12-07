@@ -26,11 +26,6 @@ export default{
                         {
                             "range": TimePayload.getTimePayload()
                         },
-                        {
-                            "match": {
-                                "projectName.keyword": store.state.scenarioProject
-                            }
-                        }
                     ]
                 }
             }
@@ -55,11 +50,6 @@ export default{
                         },
                         {
                             "range": TimePayload.getTimePayload()
-                        },
-                        {
-                            "match": {
-                                "projectName.keyword": store.state.scenarioProject
-                            }
                         },
                         {
                             "match": {

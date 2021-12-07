@@ -15,18 +15,9 @@
 <script>
 export default {
     name: "MostCommonError",
-    computed:{
-        getEnvState(){
-            return this.$store.state.env
-        },
-        getSquadIdState(){
-            return this.$store.state.squadId
-        }
-    },
     data(){
         return{
-            iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/8ce2d190-5202-11ec-b5e3-33bcb8e6aefd?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'85143acc-ed96-46e5-8d5c-537229220a7a',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!f,title:'Most%20Common%20Error',viewMode:view)&hide-filter-bar=true"
-            // iFrameUrl: "https://main--pedantic-beaver-c52a4c.netlify.app/kibana/app/dashboards#/view/8ce2d190-5202-11ec-b5e3-33bcb8e6aefd?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'85143acc-ed96-46e5-8d5c-537229220a7a',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!f,title:'Most%20Common%20Error',viewMode:view)&hide-filter-bar=true"
+            iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/786f0930-576c-11ec-b172-e71df3d22395?embed=true&_g=(filters:!(),query:(language:kuery,query:''),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'79b1e07a-c57f-45c0-bca8-29d771b959b6',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!f,title:MostCommonError,viewMode:view)&hide-filter-bar=true"
         }
     },
     mounted(){
@@ -42,11 +33,11 @@ export default {
             var query = "";
             var fromTime = "";
 
-            if(this.getEnvState == "UATA"){
+            if(this.$store.state.env == "UATA"){
                 query = query + "env.keyword%20:%20%22UATA%22"
-            }else if(this.getEnvState == "UATB"){
+            }else if(this.$store.state.env == "UATB"){
                 query = query + "env.keyword%20:%20%22UATB%22"
-            }else if(this.getEnvState == "PREPROD"){
+            }else if(this.$store.state.env == "PREPROD"){
                 query = query + "env.keyword%20:%20%22PREPROD%22"
             }
 
@@ -67,7 +58,6 @@ export default {
             }
 
             this.iFrameUrl = this.iFrameUrl.replace("[query]", query).replace("[time]", fromTime);
-            console.log(query);
         }
     }
 }

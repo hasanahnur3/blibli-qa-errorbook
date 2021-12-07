@@ -346,6 +346,8 @@ export default {
           });
         } else {
           ElasticService.getTopTenErrorWithSquadId().then((response) => {
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            console.log(response);
             this.listTopTenError =
               response.data.aggregations.by_errorType.buckets;
           });
@@ -376,12 +378,6 @@ export default {
   },
   created() {
     this.$store.commit("updateCollab");
-  },
-  updated() {
-    // ElasticService.getTopTenErrorWithEnv("UATA").then((response) => {
-    //   this.listTopError = response.data.aggregations.by_errorType.buckets;
-    //   console.log(this.listTopError);
-    // });
   },
 };
 </script>

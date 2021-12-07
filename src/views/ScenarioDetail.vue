@@ -40,7 +40,7 @@ export default {
     return {
       listError: Array,
       dataLoaded: false,
-      columns: ["error_type", "error_step", "time", "env"],
+      columns: ["error_type", "error_step", "time", "project_name", "env"],
       options: {
         headings: {
           error_type: "Error Type",
@@ -48,9 +48,10 @@ export default {
           time: "Time",
           env: "Env",
           error_message: "Error Message",
+          project_name: "Project Name"
         },
-        sortable: ["error_type", "error_step", "time", "env"],
-        filterable: ["error_type", "error_step", "time", "env", "error_message"],
+        sortable: ["error_type", "error_step", "time", "env", "project_name"],
+        filterable: ["error_type", "error_step", "time", "env", "error_message", "project_name"],
       },
     };
   },
@@ -70,9 +71,11 @@ export default {
                 let dummy = {
                   error_type : listData[i]._source.errorType,
                   error_step : listData[i]._source.errorStep,
-                  time : listData[i]._source.time,
+                  project_name : listData[i]._source.projectName,
+                  time : listData[i]._source.time.slice(0, 19).replace(/-/g, "/").replace("T", " "),
                   env : listData[i]._source.env,
                   error_message: listData[i]._source.errorMessage,
+                  id: i,
                 }
                 this.listError.push(dummy);
               }

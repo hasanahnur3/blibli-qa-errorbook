@@ -22,7 +22,7 @@ export default {
   },
   data(){
     return{
-      iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/f45cadd0-5218-11ec-b5e3-33bcb8e6aefd?embed=true&_g=(filters:!(),query:(language:kuery,query:''),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'31ff787b-8b32-44aa-801c-87c795545ee6',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!f,title:'Squad%20Error%20Percentage',viewMode:view)&hide-filter-bar=true"
+      iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/9675d840-576d-11ec-b172-e71df3d22395?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'4599a600-4295-47cc-8f73-9ae2cafefbc4',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!f,title:SquadErrorPercentage,viewMode:view)&hide-filter-bar=true"
     }
   },
   mounted(){

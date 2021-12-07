@@ -57,6 +57,11 @@ export default {
     updatedAt: String,
     id: String,
   },
+  watch: {
+    '$store.state.isLoggedIn': function() {
+      this.hasAccess();
+    }
+  },
   methods:{
     updateComment(){
       this.updatedComment = this.comment;
@@ -85,14 +90,17 @@ export default {
                 this.isEditMode = false;
               }
           );
+    },
+    checkAccess(){
+      if(this.username == this.$cookies.get("badak-username")){
+        this.hasAccess = true;
+      }else{
+        this.hasAccess = false;
+      }
     }
   },
   mounted() {
-    if(this.username == this.$cookies.get("badak-username")){
-      this.hasAccess = true;
-    }else{
-      this.hasAccess = false;
-    }
+    this.checkAccess()
   }
 }
 </script>

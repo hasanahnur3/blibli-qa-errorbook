@@ -117,15 +117,14 @@ export default {
       listScenario: Array,
       listComment: [],
       dataLoaded: false,
-      columns: ["scenario_name", "error_count", "project_name"],
+      columns: ["scenario_name", "error_count"],
       options: {
         headings: {
           name: "Scenario Name",
           code: "Error Count",
-          uri: "Project Name",
         },
-        sortable: ["scenario_name", "error_count", "project_name"],
-        filterable: ["scenario_name", "error_count", "project_name"],
+        sortable: ["scenario_name", "error_count"],
+        filterable: ["scenario_name", "error_count"],
       },
     };
   },
@@ -149,14 +148,11 @@ export default {
       this.$router.go();
     },
     handleScenarioNameClick(scenarioName, scenarioProject){
-      console.log("ini nama project: " + scenarioProject);
-      console.log("ini nama scenario: " + scenarioName);
       this.$store.commit("changeScenario", {scenarioName, scenarioProject});
       this.$router.push("/scenario-detail");
     },
     provideCache(){
-      this.$cookies.set("badak-username", "anonymous user");
-      this.$store.commit("changeIsLoggedIn", true);
+      this.$store.commit("insertCookies");
     },
     changeListScenario() {
       if (this.$store.state.squadId != 0){

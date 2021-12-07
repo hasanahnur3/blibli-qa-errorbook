@@ -1,21 +1,40 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import cookie from 'vue-cookies'
+
 import ElasticService from "@/service/service.js";
 
 Vue.use(Vuex)
+
+const getIsLoggedIn = () => {
+  try{
+    return cookie.get("badak-username") !== null;
+  }catch (err){
+    console.log(err)
+    console.log("masuk catch")
+    return false;
+  }
+}
+
+const provideCookies = () => {
+  cookie.set("badak-username", "anonymous user");
+}
+
+const deleteCookies = () => {
+ cookie.remove("badak-username");
+}
 
 export default new Vuex.Store({
   state: {
     env: "ALL",
     squadId: 0,
-    renderCounter: 0,
-    listTopTenError: Array,
+    time:2,
+    isLoggedIn: getIsLoggedIn(),
     collab: Array,
+    renderCounter: 0,
     selectedCollab: null,
     scenarioName: null,
     scenarioProject: null,
-    time:2,
-    isLoggedIn: false,
   },
   mutations: {
     changeEnv(state, newEnv) {
@@ -37,12 +56,9 @@ export default new Vuex.Store({
       state.renderCounter++;
     },
     changeScenario(state, {scenarioName, scenarioProject}){
-      console.log("masuk, scenarioProject = " + scenarioProject + " " + scenarioName);
       state.scenarioName = scenarioName;
       state.scenarioProject = scenarioProject;
       state.renderCounter++;
-      console.log(state.scenarioProject);
-      console.log(state.scenarioName);
     },
     changeRenderCounter(state){
       state.renderCounter++;
@@ -50,33 +66,6 @@ export default new Vuex.Store({
     changeIsLoggedIn(state, loggedIn){
       state.isLoggedIn = loggedIn;
     },
-    // changeListTopTenError(state) {
-    //   if (state.env == "ALL" && state.squadId == 0) {
-    //     console.log("changeListTopTenError 1");
-    //     ElasticService.getTopTenError().then((response) => {
-    //       state.listTopTenError = response.data.aggregations.by_errorType.buckets;
-    //       console.log(state.listTopTenError);
-    //     });
-    //   } else if (state.env != "ALL" && state.squadId == 0) {
-    //     console.log("changeListTopTenError 2");
-    //     ElasticService.getTopTenErrorWithEnv(state.env).then((response) => {
-    //       state.listTopTenError = response.data.aggregations.by_errorType.buckets;
-    //       console.log(state.listTopTenError);
-    //     });
-    //   } else if (state.env == "ALL" && state.squadId != 0) {
-    //     console.log("changeListTopTenError 3");
-    //     ElasticService.getTopTenErrorWithSquadId(state.squadId).then((response) => {
-    //       state.listTopTenError = response.data.aggregations.by_errorType.buckets;
-    //       console.log(state.listTopTenError);
-    //     });
-    //   } else if (state.env != "ALL" && state.squadId != 0) {
-    //     console.log("changeListTopTenError 4");
-    //     ElasticService.getTopTenErrorWithEnvAndSquadId(state.env, state.squadId).then((response) => {
-    //       state.listTopTenError = response.data.aggregations.by_errorType.buckets;
-    //       console.log(state.listTopTenError);
-    //     });
-    //   }
-    // },
     updateCollab(state) {
       ElasticService.getCollab().then((response) => {
         const all = {
@@ -87,6 +76,14 @@ export default new Vuex.Store({
         state.collab = [all].concat(response.data.data);
         console.log(state.collab);
       });
+    },
+    insertCookies(state){
+      provideCookies()
+      state.isLoggedIn = true;
+    },
+    removeCookies(state){
+      deleteCookies()
+      state.isLoggedIn = false;
     }
   },
   actions: {},

@@ -25,7 +25,7 @@ export default {
   },
   data(){
     return{
-      iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/2d81f5e0-5217-11ec-b5e3-33bcb8e6aefd?embed=true&_g=(filters:!(),query:(language:kuery,query:''),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:d031be18-b1c3-4b55-9d6f-458d4d2c18b7,filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!f,title:'Most%20Common%20Scenario',viewMode:view)&hide-filter-bar=true"
+      iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/c4f160f0-577b-11ec-b172-e71df3d22395?embed=true&_g=(filters:!(),query:(language:kuery,query:''),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'82ea0944-aeda-4b97-9049-27a8f8597d77',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!f,title:MostErrorScenario,viewMode:view)&hide-filter-bar=true"
     }
   },
   mounted(){

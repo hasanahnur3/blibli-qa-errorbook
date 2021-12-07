@@ -1,9 +1,7 @@
 <template>
-<!--  <div class="row">-->
     <div class="col-6">
       <iframe :src="this.iFrameUrl" height="500" width="100%" ></iframe>
     </div>
-<!--  </div>-->
 </template>
 
 <script>
@@ -22,8 +20,7 @@ export default {
   },
   data(){
     return{
-      iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/0e109520-5228-11ec-b5e3-33bcb8e6aefd?embed=true&_g=(filters:!(),query:(language:kuery,query:'[query]'),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:abe35336-98bb-4380-a0cb-0f0253ddb5d8,filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:'Error%20Type%20Occurence',viewMode:view)&hide-filter-bar=true"
-      // iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/8ce2d190-5202-11ec-b5e3-33bcb8e6aefd?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'85143acc-ed96-46e5-8d5c-537229220a7a',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!f,title:'Most%20Common%20Error',viewMode:view)&hide-filter-bar=true"
+      iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/3df41c30-576e-11ec-b172-e71df3d22395?embed=true&_g=(filters:!(),query:(language:kuery,query:''),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'96803e43-79f3-4636-a6cf-05ac7d69bbb5',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!t,title:ErrorTypeOccurence,viewMode:view)&hide-filter-bar=true"
     }
   },
   mounted(){

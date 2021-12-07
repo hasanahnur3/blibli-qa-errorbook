@@ -18,6 +18,8 @@ export default {
     },
 
     getTopTenErrorWithSquadId() {
+        console.log("INI PAYLOADNYA");
+        console.log(HomePayload.topTenErrorWithSquadIdPayload());
         return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorWithSquadIdPayload());
     },
 

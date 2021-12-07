@@ -74,6 +74,7 @@ export default {
       this.categoryLoaded = false;
       ElasticCategoryService.getCategory(this.errorType).then(
           (response) => {
+            console.log(response.data);
             this.id = response.data.hits.hits[0]._id;
             this.listCategories = response.data.hits.hits[0]._source.categories;
             this.categoryLoaded =true;
@@ -84,18 +85,24 @@ export default {
       });
     },
     provideCache(){
-      this.$cookies.set("badak-username", "anonymous user");
-      this.$store.commit("changeIsLoggedIn", true);
+      this.$store.commit("insertCookies");
     },
     submitNewCategory(){
       if(this.listCategories.includes(this.newCategory)){
         this.hideInputWarning = false;
         setTimeout(() => this.hideInputWarning = true, 1500);
       }else{
+        this.categoryLoaded = false;
+        this.listCategories.push(this.newCategory);
         if(this.id != ""){
-          this.categoryLoaded = false;
-          this.listCategories.push(this.newCategory);
           ElasticCategoryService.updateCategory(this.id, this.listCategories).then(
+              (response) => {
+                console.log(response.data);
+                this.categoryLoaded = true;
+              }
+          );
+        }else{
+          ElasticCategoryService.createInitialCategory(this.errorType, this.listCategories).then(
               (response) => {
                 console.log(response.data);
                 this.categoryLoaded = true;

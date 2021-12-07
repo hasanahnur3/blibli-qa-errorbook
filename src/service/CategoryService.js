@@ -23,9 +23,17 @@ export default {
     updateCategory(id, listCategories){
         let request = {
             "doc": {
-                "comment": listCategories
+                "categories": listCategories
             }
         };
         return Axios.post(ELASTIC_URL + "/error_category_index/_update/" + id, request);
+    },
+
+    createInitialCategory(errorType, listCategories){
+        let request = {
+            "errorType" : errorType,
+            "categories": listCategories
+        };
+        return Axios.post(ELASTIC_URL + "/error_category_index/_doc", request);
     }
 }

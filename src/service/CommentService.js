@@ -22,7 +22,7 @@ export default {
     createComment(errorType, username, comment){
         let temp = {
             errorType: errorType ,
-            createdDate: new Date().toLocaleString(),
+            createdDate: (new Date()).toISOString(),
             username: username,
             comment: comment,
         }
@@ -34,7 +34,7 @@ export default {
         let temp = {
             "doc": {
                 "comment": comment,
-                "updatedDate": new Date().toLocaleString()
+                "updatedDate": (new Date()).toISOString()
             }
         }
 
