@@ -6,8 +6,38 @@
       >{{ $store.state.scenarioName }}
     </h1>
     <FilterCard envOnly=true />
-    <br />
     <div :key="$store.state.renderCounter" v-if="dataLoaded"  v-cloak>
+      <div>
+        <div v-if="selectedErrorType != 'ALL'">
+          <ScenarioErrorOccurence :errorType="this.selectedErrorType" />
+        </div>
+        <div v-if="selectedErrorType == 'ALL'">
+          <ScenarioErrorOccurence />
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-4">
+          <h5>Change Chart Basen On Error Type: </h5>
+        </div>
+        <div class="col-4">
+          <select
+              class="form-select"
+              aria-label="Default select example"
+              v-model="selectedErrorType"
+              @change="increaseRenderCounter"
+          >
+            <option
+                v-for="(item, index) in listErrorType"
+                v-bind:item="item"
+                v-bind:index="index"
+                v-bind:key="item"
+                :value = "item"
+            >{{ item }}</option>
+          </select>
+        </div>
+      </div>
+      <br>
       <v-client-table :columns="columns" v-model="listError" :options="options">
         <div slot="child_row" slot-scope="props">
           <div>
@@ -31,15 +61,19 @@
 <script>
 import FilterCard from "@/components/FilterCard.vue";
 import ElasticService from "@/service/service";
+import ScenarioErrorOccurence from "@/components/kibana/ScenarioErrorOccurence";
 export default {
   name: "ScenarioDetail",
   components: {
-    FilterCard
+    FilterCard,
+    ScenarioErrorOccurence
   },
   data() {
     return {
-      listError: Array,
+      listError: [],
       dataLoaded: false,
+      listErrorType: [],
+      selectedErrorType: "ALL",
       columns: ["error_type", "error_step", "time", "project_name", "env"],
       options: {
         headings: {
@@ -63,6 +97,7 @@ export default {
   methods: {
     changeListError() {
       if (this.$store.state.env == "ALL") {
+        this.listErrorType.push("ALL");
         ElasticService.getListErrorFromScenarioNoEnv().then(
             (response) => {
               var listData = response.data.hits.hits;
@@ -77,6 +112,7 @@ export default {
                   error_message: listData[i]._source.errorMessage,
                   id: i,
                 }
+                if(!this.listErrorType.includes(dummy.error_type)) this.listErrorType.push(dummy.error_type);
                 this.listError.push(dummy);
               }
               console.log(this.listError);
@@ -103,6 +139,9 @@ export default {
         );
       }
     },
+    increaseRenderCounter(){
+      this.$store.commit("changeRenderCounter")
+    }
   },
   mounted() {
     this.changeListError();
