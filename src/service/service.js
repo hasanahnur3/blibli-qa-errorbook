@@ -3,11 +3,18 @@ import HomePayload from './HomePayload';
 import ErrorDetailPayload from "@/service/ErrorDetailPayload";
 import ScenarioDetailPayload from "@/service/ScenarioDetailPayload";
 
-// const INDEX_NAME = "/error_summary_index";
-
+/*
+This comment is intended for those who desire to replicate Error Book
+---------------------------------------------------------------------
+Change the elastic url below.
+ */
 const ELASTIC_URL = "http://159.223.37.9:9200";
 
 export default {
+
+    getCollab() {
+        return Axios.get("https://a515e70a-5b79-41da-bc13-ce2b4724d594.mock.pstmn.io/collab");
+    },
 
     getTopTenError() {
         return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorPayload());
@@ -25,10 +32,6 @@ export default {
 
     getTopTenErrorWithEnvAndSquadId() {
         return Axios.post(ELASTIC_URL + "/error_summary_index/_search", HomePayload.topTenErrorWithEnvAndSquadIdPayload());
-    },
-
-    getCollab() {
-        return Axios.get("https://a515e70a-5b79-41da-bc13-ce2b4724d594.mock.pstmn.io/collab");
     },
 
     getTopTenErrorSearch(searchTerm){

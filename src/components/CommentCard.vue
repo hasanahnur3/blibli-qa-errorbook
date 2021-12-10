@@ -91,6 +91,11 @@ export default {
               }
           );
     },
+    /*
+    This comment is intended for those who desire to replicate Error Book
+    ---------------------------------------------------------------------
+    Change this if you want to implement your own authentication.
+    */
     checkAccess(){
       if(this.username == this.$cookies.get("badak-username")){
         this.hasAccess = true;

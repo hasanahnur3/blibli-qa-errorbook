@@ -21,6 +21,10 @@
             <hr class="col-4 offset-4">
           </div>
 
+          <!-- This comment is intended for those who desire to replicate Error Book
+          ---------------------------------------------------------------------
+          Change this if you want to implement your own authentication
+          -->
           <div v-if="!$store.state.isLoggedIn" class="align-content-center justify-content-center text-center">
             <h5 class="pt-3">Log In untuk menambah category</h5>
             <button class="btn btn-primary" @click="provideCache">Log In</button>
@@ -74,7 +78,6 @@ export default {
       this.categoryLoaded = false;
       ElasticCategoryService.getCategory(this.errorType).then(
           (response) => {
-            console.log(response.data);
             this.id = response.data.hits.hits[0]._id;
             this.listCategories = response.data.hits.hits[0]._source.categories;
             this.categoryLoaded =true;
@@ -84,6 +87,11 @@ export default {
         this.listCategories = [];
       });
     },
+    /*
+    This comment is intended for those who desire to replicate Error Book
+    ---------------------------------------------------------------------
+    Change this if you want to implement your own authentication.
+    */
     provideCache(){
       this.$store.commit("insertCookies");
     },

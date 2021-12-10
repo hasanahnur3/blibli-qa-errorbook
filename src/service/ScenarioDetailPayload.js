@@ -4,10 +4,6 @@ import store from '../store';
 export default{
 
     listErrorFromScenarioNoEnvPayload(){
-        console.log(store.state.scenarioName);
-        console.log(store.state.squadId);
-        console.log(store.state.env);
-        console.log(store.state.scenarioProject);
         return {
             "size":1000,
             "query": {

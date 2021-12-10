@@ -138,9 +138,7 @@ export default {
     getComments(){
       CommentService.getListComment(this.errorType).then(
           (response) => {
-            console.log(response);
             this.listComment = response.data.hits.hits;
-            console.log(this.listComment);
           }
       );
     },
@@ -160,7 +158,6 @@ export default {
           ElasticService.getListScenarioFromErrorTypeNoEnv(this.errorType).then(
               (response) => {
                 var listData = response.data.aggregations.by_scenarioName.buckets;
-                console.log(listData)
                 this.listScenario = [];
                 for(var i=0; i<listData.length; i++){
                   let dummy = {
@@ -177,7 +174,6 @@ export default {
           ElasticService.getListScenarioFromErrorTypeWithEnv(this.errorType).then(
               (response) => {
                 var listData = response.data.aggregations.by_scenarioName.buckets;
-                console.log(listData)
                 this.listScenario = [];
                 for(var i=0; i<listData.length; i++){
                   let dummy = {

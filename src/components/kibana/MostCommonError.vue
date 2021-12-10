@@ -22,17 +22,20 @@ export default {
     },
     mounted(){
         this.refreshQuery();
-        console.log(this.iFrameUrl);
     },
     beforeUpdate(){
         this.refreshQuery();
-        console.log(this.iFrameUrl);
     },
     methods: {
         refreshQuery(){
             var query = "";
             var fromTime = "";
 
+          /*
+          This comment is intended for those who desire to replicate Error Book
+          ---------------------------------------------------------------------
+          Replace the if else below to match your according environments.
+           */
             if(this.$store.state.env == "UATA"){
                 query = query + "env.keyword%20:%20%22UATA%22"
             }else if(this.$store.state.env == "UATB"){

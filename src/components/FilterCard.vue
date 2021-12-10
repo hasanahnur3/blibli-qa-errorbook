@@ -3,6 +3,10 @@
     <div class="card">
       <div class="card-body">
         <div class="row mt-2">
+          <!-- This comment is intended for those who desire to replicate Error Book
+          ---------------------------------------------------------------------
+          Change these environments according to your environments
+          -->
           <div class="col-2 offset-md-3">
             <h5>Select Environment:</h5>
           </div>
@@ -95,9 +99,6 @@
               <option value="0">Since Yesterday</option>
               <option value="1">Since Last Week</option>
               <option value="2">Since Last Month</option>
-              <!-- <option value="1" :selected="$store.state.squadId == 1">
-                Engangement
-              </option> -->
             </select>
           </div>
         </div>
@@ -142,8 +143,6 @@ export default {
     this.selectedTime = this.$store.state.time;
   },
   mounted() {
-    console.log("env: " + this.$store.state.env);
-    console.log("env: " + this.$store.state.squadId);
     this.selectedSquad = this.$store.state.squadId;
     this.selectedTime = this.$store.state.time;
   }

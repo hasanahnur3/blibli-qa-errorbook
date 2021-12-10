@@ -10,8 +10,6 @@ const getIsLoggedIn = () => {
   try{
     return cookie.get("badak-username") !== null;
   }catch (err){
-    console.log(err)
-    console.log("masuk catch")
     return false;
   }
 }

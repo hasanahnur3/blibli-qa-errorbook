@@ -8,7 +8,7 @@
         <MostCommonError/>
       </div>
       <div v-if="searchIndex == 1">
-        <MostCommonScenario/>
+        <MostErrorScenario/>
       </div>
     </div>
 
@@ -66,7 +66,7 @@
         <button class="btn btn-outline-primary" @click="clearBtnCategory">Clear</button>
         <button class="btn btn-primary" @click="changeListTopTenErrorFromCategory">Search</button>
       </div>
-<!--      <CategorySelectorCard />-->
+
       <!-- END OF SEARCH SELECTOR -->
       <br />
       <div :key="searchRenderCounter" v-if="searchCategoryKey == ''">
@@ -133,7 +133,6 @@
         <div v-if="listTopTenScenario.length == 0" class="text-center">
           <h5>No Scenario Found</h5>
         </div>
-<!--        {{ listTopTenScenario }}-->
         <div
             v-for="(item, index) in listTopTenScenario"
             v-bind:item="item"
@@ -159,14 +158,11 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
 import FilterCard from "@/components/FilterCard.vue";
-// import CategorySelectorCard from "@/components/CategoryCard.vue";
 import ErrorTypeListElement from "@/components/ErrorTypeListElement.vue";
 import ScenarioListElement from "@/components/ScenarioListElement";
 import MostCommonError from "@/components/kibana/MostCommonError.vue";
-import MostCommonScenario from "@/components/kibana/MostCommonScenario";
+import MostErrorScenario from "@/components/kibana/MostErrorScenario";
 import ElasticService from "@/service/service.js";
 import ElasticCategoryService from "@/service/CategoryService.js";
 
@@ -174,11 +170,10 @@ export default {
   name: "Home",
   components: {
     FilterCard,
-    // CategorySelectorCard,
     ErrorTypeListElement,
     ScenarioListElement,
     MostCommonError,
-    MostCommonScenario,
+    MostErrorScenario,
   },
   data() {
     return {
@@ -197,7 +192,6 @@ export default {
   },
   watch: {
     '$store.state.renderCounter': function() {
-      console.log("status: " + this.$store.state.squadId)
       this.changeListTopTenError();
       if(this.searchIndex == 1){
         this.changeListTopTenScenario();
@@ -205,7 +199,6 @@ export default {
       if(this.searchIndex==1 && this.$store.state.squadId == 0){
         this.changeSearchIndex();
       }
-      console.log("masuk watchh");
     }
   },
   methods: {
@@ -219,7 +212,6 @@ export default {
         this.searchScenarioKey = "";
         this.listTopTenScenario = [];
       }
-      console.log("search index berubah jadi: " + this.searchIndex);
     },
     changeListTopTenScenario(){
       // NO ENV //
@@ -290,10 +282,8 @@ export default {
       );
     },
     changeListTopTenError() {
-      console.log(this.searchErrorKey);
       // NO ENV AND SQUAD ID //
       if (this.$store.state.env == "ALL" && this.$store.state.squadId == 0) {
-        console.log("changeListTopTenError 1");
         if (this.searchErrorKey != "") {
           ElasticService.getTopTenErrorSearch(this.searchErrorKey).then(
             (response) => {
@@ -316,7 +306,6 @@ export default {
         this.$store.state.env != "ALL" &&
         this.$store.state.squadId == 0
       ) {
-        console.log("changeListTopTenError 2");
         if (this.searchErrorKey != "") {
           ElasticService.getTopTenErrorSearchWithEnv(this.searchErrorKey).then(
               (response) => {
@@ -338,7 +327,6 @@ export default {
         this.$store.state.env == "ALL" &&
         this.$store.state.squadId != 0
       ) {
-        console.log("changeListTopTenError 3");
         if (this.searchErrorKey != "") {
           ElasticService.getTopTenErrorSearchWithSquadId(this.searchErrorKey).then((response) => {
             this.listTopTenError =
@@ -346,8 +334,6 @@ export default {
           });
         } else {
           ElasticService.getTopTenErrorWithSquadId().then((response) => {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log(response);
             this.listTopTenError =
               response.data.aggregations.by_errorType.buckets;
           });
@@ -358,7 +344,6 @@ export default {
         this.$store.state.env != "ALL" &&
         this.$store.state.squadId != 0
       ) {
-        console.log("changeListTopTenError 4");
         if (this.searchErrorKey != "") {
           ElasticService.getTopTenErrorSearchWithEnvAndSquadId(this.searchErrorKey).then((response) => {
             this.listTopTenError =

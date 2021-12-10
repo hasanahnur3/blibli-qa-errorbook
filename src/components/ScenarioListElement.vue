@@ -30,8 +30,6 @@ export default {
     handleScenarioNameClick(){
       const scenarioName = this.scenario;
       const scenarioProject = this.scenarioProject;
-      console.log("props scenario: " + scenarioName);
-      console.log(scenarioProject);
       this.$store.commit("changeScenario", {scenarioName, scenarioProject});
       this.$router.push("/scenario-detail");
     },

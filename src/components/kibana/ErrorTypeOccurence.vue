@@ -20,16 +20,21 @@ export default {
   },
   data(){
     return{
+      /*
+      This comment is intended for those who desire to replicate Error Book
+      ---------------------------------------------------------------------
+      Replace the url of ErrorTypeOccurence visualization here.
+      ErrorTypeOccurence and ErrorTypeOccurenceCentered is the same, don't be confused.
+      The centered one is used when the visualization is displayed alone in a row.
+       */
       iFrameUrl: "http://159.223.37.9:5601/app/dashboards#/view/3df41c30-576e-11ec-b172-e71df3d22395?embed=true&_g=(filters:!(),query:(language:kuery,query:''),refreshInterval:(pause:!t,value:0),time:(from:[time],to:now))&_a=(description:'',expandedPanelId:'96803e43-79f3-4636-a6cf-05ac7d69bbb5',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:'[query]'),timeRestore:!t,title:ErrorTypeOccurence,viewMode:view)&hide-filter-bar=true"
     }
   },
   mounted(){
     this.refreshQuery();
-    console.log(this.iFrameUrl);
   },
   beforeUpdate(){
     this.refreshQuery();
-    console.log(this.iFrameUrl);
   },
   methods: {
     refreshQuery(){
@@ -41,6 +46,11 @@ export default {
           + this.errorType
           + "%22%20";
 
+      /*
+      This comment is intended for those who desire to replicate Error Book
+      ---------------------------------------------------------------------
+      Replace the if else below to match your according environments.
+       */
       if(this.getEnvState == "UATA"){
         query = query + "%20and%20env.keyword%20:%20%22UATA%22"
       }else if(this.getEnvState == "UATB"){

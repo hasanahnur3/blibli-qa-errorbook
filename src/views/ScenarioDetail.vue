@@ -115,7 +115,6 @@ export default {
                 if(!this.listErrorType.includes(dummy.error_type)) this.listErrorType.push(dummy.error_type);
                 this.listError.push(dummy);
               }
-              console.log(this.listError);
               this.dataLoaded = true;
             }
         );
