@@ -97,7 +97,7 @@ export default {
   methods: {
     changeListError() {
       if (this.$store.state.env == "ALL") {
-        this.listErrorType.push("ALL");
+        if(!this.listErrorType.includes("ALL")) this.listErrorType.push("ALL");
         ElasticService.getListErrorFromScenarioNoEnv().then(
             (response) => {
               var listData = response.data.hits.hits;

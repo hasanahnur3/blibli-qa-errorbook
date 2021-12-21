@@ -13,7 +13,7 @@ const ELASTIC_URL = "http://159.223.37.9:9200";
 export default {
 
     getCollab() {
-        return Axios.get("https://a515e70a-5b79-41da-bc13-ce2b4724d594.mock.pstmn.io/collab");
+        return Axios.get("https://20dcc463-3192-4a87-a9cd-58937b474e15.mock.pstmn.io/collab");
     },
 
     getTopTenError() {
